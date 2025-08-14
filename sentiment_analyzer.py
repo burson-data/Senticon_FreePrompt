@@ -30,16 +30,16 @@ class SentimentAnalyzer:
     
     def _create_sentiment_prompt(self, content: str, context: str) -> str:
         prompt = f"""
-        Analisis sentimen dari artikel berita berikut berdasarkan konteks yang diberikan.
+        Analisis artikel berita berikut berdasarkan konteks yang diberikan.
         
         KONTEKS: {context}
         
         ARTIKEL:
         {content[:3000]}  # Limit content to avoid token limits
         
-        Berikan analisis sentimen dalam format JSON dengan struktur berikut:
+        Berikan analisis dalam format JSON dengan struktur berikut:
         {{
-            "sentiment": "positif/negatif/netral",
+            "sentiment": "klasifikasi kategori berdasarkan konteks yang diberikan",
             "confidence": "tinggi/sedang/rendah",
             "reasoning": "penjelasan singkat mengapa sentimen tersebut dipilih berdasarkan konteks"
         }}
@@ -61,11 +61,6 @@ class SentimentAnalyzer:
                 sentiment = "netral"
                 confidence = "rendah"
                 reasoning = response_text
-                
-                if "positif" in response_text.lower():
-                    sentiment = "positif"
-                elif "negatif" in response_text.lower():
-                    sentiment = "negatif"
                 
                 return {
                     "sentiment": sentiment,
